@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="key.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+      body { margin: 50px; padding: 25px; }
+      html {background-color: #f8f5f5;}
+      #root { background-color:white }
+    </style>
+  </head>
+  <body>
+    <h1>Random "Catholic University" Item from DPLA</h1>
+    <div id="root"></div>
+  </body>
+  <script>
+    function getRandomInt(min,max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    var randomItem = getRandomInt(0,9);
+    var randomPage = getRandomInt(0,99);
+
+    $.ajax({
+      url: 'https://api.dp.la/v2/items?q=catholic%20university&api_key=' + key + '&page=' + randomPage,
+      dataType: "json",
+      success: function(data) {
+        var desc = data.docs[randomItem].sourceResource.title;
+        var link =  data.docs[randomItem].isShownAt;
+        var thumb = data.docs[randomItem].object;
+        $("#root").html(desc + "<br /><a target='_blank' href='" + link + "'>" + link + "</a><br><img src='" + thumb + "'>");
+        }
+      });
+  </script>
+</html>
